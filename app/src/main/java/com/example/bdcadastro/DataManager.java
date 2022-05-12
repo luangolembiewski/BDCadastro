@@ -3,10 +3,13 @@ package com.example.bdcadastro;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 public class DataManager {
+    //cria a variavel do banco
+    private SQLiteDatabase db;
     //Define as constantes para conexão com o banco
     public static final String DB_NAME = "bd_nome_idade";
     public static final int DB_VERSION = 1;
@@ -17,6 +20,24 @@ public class DataManager {
     public static final String COLUNA_NOME = "nome";
     public static final String COLUNA_IDADE = "idade";
 
+
+    //Cria o construtor da classe
+    public DataManager(Context context){
+        //Cria instancia do nosso helper
+        NossoSQLiteOpenHelper helper = new NossoSQLiteOpenHelper(context);
+        //Obtém uma base de dados editavel
+        db = helper.getWritableDatabase();
+    }
+
+    //Inserir um registro
+    public void inserir(String nome, String idade){
+        String query = "INSERT INTO " + TABELA_N_I
+                +"(" + COLUNA_NOME + "," + COLUNA_IDADE + ")"
+                + "VALUES (" + "'" + nome + "','" + idade + "');";
+        Log.i("insert() = ", query);
+        db.execSQL(query);
+
+    }
     private class NossoSQLiteOpenHelper extends SQLiteOpenHelper {
         //Cria o método construtor na classe
         public NossoSQLiteOpenHelper(Context context){
@@ -31,6 +52,11 @@ public class DataManager {
                     +COLUNA_NOME + "TEXT NOT NULL,"
                     +COLUNA_IDADE + "TEXT NOT NULL);";
             sqLiteDatabase.execSQL(queryNovaTabela);
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+
         }
     }
 }
