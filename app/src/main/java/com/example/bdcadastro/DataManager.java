@@ -1,6 +1,7 @@
 package com.example.bdcadastro;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -36,8 +37,31 @@ public class DataManager {
                 + "VALUES (" + "'" + nome + "','" + idade + "');";
         Log.i("insert() = ", query);
         db.execSQL(query);
-
     }
+    //Excluir um registro
+    public void delete(String nome){
+        String query = "DELETE FROM " + TABELA_N_I + " WHERE " + COLUNA_NOME + " = '" + nome +"';";
+        Log.i("delete() = ", query);
+        db.execSQL(query);
+    }
+    //Listar Registros
+    public Cursor listar(){
+        String query = "SELECT * FROM " + TABELA_N_I+";";
+        Cursor c = db.rawQuery(query,null);
+        return c;
+    }
+    //Buscar registros
+    public Cursor consulta(String nome){
+        String query = "SELECT "+ COLUNA_ID + "," + COLUNA_NOME + "," + COLUNA_IDADE
+                + "FROM " + TABELA_N_I + " WHERE "
+                + COLUNA_NOME + "= '" + nome + "';";
+        Log.i("consulta() = ", query);
+        Cursor c = db.rawQuery(query,null);
+        return c;
+    }
+
+
+
     private class NossoSQLiteOpenHelper extends SQLiteOpenHelper {
         //Cria o método construtor na classe
         public NossoSQLiteOpenHelper(Context context){
