@@ -34,7 +34,7 @@ public class DataManager {
     public void inserir(String nome, String idade){
         String query = "INSERT INTO " + TABELA_N_I
                 +"(" + COLUNA_NOME + "," + COLUNA_IDADE + ")"
-                + "VALUES (" + "'" + nome + "','" + idade + "');";
+                + " VALUES (" + "'" + nome + "', '" + idade + "');";
         Log.i("insert() = ", query);
         db.execSQL(query);
     }
@@ -60,8 +60,6 @@ public class DataManager {
         return c;
     }
 
-
-
     private class NossoSQLiteOpenHelper extends SQLiteOpenHelper {
         //Cria o método construtor na classe
         public NossoSQLiteOpenHelper(Context context){
@@ -73,8 +71,9 @@ public class DataManager {
             String queryNovaTabela = "CREATE TABLE "
                     +TABELA_N_I + "("
                     +COLUNA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-                    +COLUNA_NOME + "TEXT NOT NULL,"
-                    +COLUNA_IDADE + "TEXT NOT NULL);";
+                    +COLUNA_NOME + " TEXT NOT NULL,"
+                    +COLUNA_IDADE + " TEXT NOT NULL);";
+            Log.i("consulta() = ", queryNovaTabela);
             sqLiteDatabase.execSQL(queryNovaTabela);
         }
 
